@@ -222,6 +222,8 @@ def get_location_preference(username):
 			status = cur.fetchall()[0]['location_pref0priv1frien2pub']
 			return status
 
+def send_default_message(string, username, other_username):
+	chat.send_message(string,username,other_username)
 
 class chat:
 	def add_user(username,user_name,*args):
@@ -233,7 +235,7 @@ class chat:
 		}
 		response = requests.post(url, headers=headers, data=payload)
 		print("added user to chat", response.status_code)
-		return 0
+		return response.status_code
 
 	def update_friends(username):
 		url = "https://api.chatengine.io/chats/"
@@ -262,6 +264,12 @@ class chat:
 					cur.execute(update_script, (all_friends, username))
 					print(f"Updated friends of {username}")
 		return 0
+	
+	def send_message(string,username,other_username):
+		url = f"https://api.chatengine.io/chats/{other_username}/messages/"
+		headers = {"Project-ID":"PID","User-Name":username,"User-Secret":"123456-dummy"}
+		resp = requests.post(url,data={"text":string,headers=headers})
+		return resp.status_code
 
 
 
