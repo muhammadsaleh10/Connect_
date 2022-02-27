@@ -169,8 +169,12 @@ def get_main_user_info(username):
 	print("user info gotten,",ALL_USERS[username])
 	return ALL_USERS[username]
 
-@app.route('/<username>/make_active/')
-def make_active(username):
+@app.route('/<username>/<type_>/<other_username>/make_active/')
+def make_active(username,type_,other_username):
+	user_name = ALL_USERS[username]['user_name']
+	other_user_name = ALL_USERS[other_username]['user_name']
+	if type == 'connect':
+		server.send_default_message(f'Hi {other_user_name} I study {ALL_USERS[username]['user_bio']} and I’m interested to connect with you!', username, other_username)
 	return {"state":"active", "active":True}
 
 
